@@ -1,6 +1,7 @@
 package model.units;
 
 import model.map.Location;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,7 +59,8 @@ public class SorcererTest extends AbstractTestUnit{
     }
 
     @Override
-    public void combatTest() {
-        super.combatTest();
+    @Test
+    public void attackTest() {
+        super.attackTest();
     }
 }

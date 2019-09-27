@@ -140,5 +140,5 @@ public interface ITestUnit {
   void isAttackedByTest();
 
   @Test
-  void combatTest();
+  void attackTest();
 }

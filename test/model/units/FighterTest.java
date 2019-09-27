@@ -45,7 +45,7 @@ public class FighterTest extends AbstractTestUnit {
   }
 
   @Override
-  public void combatTest() {
-    super.combatTest();
+  public void attackTest() {
+    super.attackTest();
   }
 }

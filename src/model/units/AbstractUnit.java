@@ -107,7 +107,7 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public double combat(IUnit unit) {
+  public double attack(IUnit unit) {
     double currentHP = this.currentHitPoints;
     if (this.isAttackedBy(unit)) {
       if (this.getEquippedItem().versus(unit.getEquippedItem()) == 0) {

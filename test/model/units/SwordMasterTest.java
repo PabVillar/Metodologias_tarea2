@@ -39,7 +39,7 @@ public class SwordMasterTest extends AbstractTestUnit {
   }
 
   @Override
-  public void combatTest() {
-    super.combatTest();
+  public void attackTest() {
+    super.attackTest();
   }
 }

@@ -77,7 +77,7 @@ public interface IUnit {
    *
    * @return the result of a combat
    */
-  double combat(IUnit unit);
+  double attack(IUnit unit);
 
   /**
    * Checks if two units can fight

@@ -44,7 +44,7 @@ public class ClericTest extends AbstractTestUnit {
 
   @Override
   @Test
-  public void combatTest() {
-    super.combatTest();
+  public void attackTest() {
+    super.attackTest();
   }
 }

@@ -252,7 +252,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   @Override
   @Test
-  public void combatTest() {
+  public void attackTest() {
 
    Location location0 = new Location(0,0);
    Location location1 = new Location(0,1);
@@ -288,13 +288,13 @@ public abstract class AbstractTestUnit implements ITestUnit {
    int aenimaPower = getAenimaMagicBook().getPower();
    int swordPower = getSword().getPower();
 
-   cleric.combat(archer);
+   cleric.attack(archer);
    assertEquals(50-bowPower,cleric.getCurrentHitPoints());
 
-   fighter.combat(hero);
+   fighter.attack(hero);
    assertEquals(50-spearPower+20,fighter.getCurrentHitPoints());
 
-   sorcerer.combat(swordMaster);
+   sorcerer.attack(swordMaster);
    assertEquals(50-swordPower*1.5,sorcerer.getCurrentHitPoints());
   }
 }

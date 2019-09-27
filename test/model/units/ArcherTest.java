@@ -48,7 +48,8 @@ public class ArcherTest extends AbstractTestUnit {
   }
 
   @Override
-  public void combatTest() {
-    super.combatTest();
+  @Test
+  public void attackTest() {
+    super.attackTest();
   }
 }

@@ -1,10 +1,11 @@
 package controller;
 
-import java.util.List;
-import model.Tactician;
+import model.Tactician.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.IUnit;
+
+import java.util.List;
 
 /**
  * Controller of the game.
