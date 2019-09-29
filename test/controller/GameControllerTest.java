@@ -37,7 +37,7 @@ class GameControllerTest {
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4, tacticians.size());
     for (int i = 0; i < tacticians.size(); i++) {
-      assertEquals("Player " + i, tacticians.get(i + 1).getName());
+      assertEquals("Player " + i+1, tacticians.get(i).getName());
     }
   }
 
@@ -131,7 +131,7 @@ class GameControllerTest {
     IntStream.range(0, 2).forEach(i -> controller.endTurn());
     List<String> winners = controller.getWinners();
     assertEquals(2, winners.size());
-    assertTrue(List.of("Player 1", "Player 2").containsAll(winners));
+    assertTrue(List.of("Player 1", "Player 3").containsAll(winners));
 
     controller.initEndlessGame();
     for (int i = 0; i < 3; i++) {
