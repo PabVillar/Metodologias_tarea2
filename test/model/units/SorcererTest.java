@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SorcererTest extends AbstractTestUnit{
+public class SorcererTest extends AbstractTestUnit {
 
     private Sorcerer sorcerer;
 
@@ -15,7 +15,7 @@ public class SorcererTest extends AbstractTestUnit{
      */
     @Override
     public void setTestUnit() {
-        sorcerer = new Sorcerer(50,2,new Location(0,0));
+        sorcerer = new Sorcerer(50, 2, new Location(0, 0));
     }
 
     /**
@@ -53,14 +53,4 @@ public class SorcererTest extends AbstractTestUnit{
         assertEquals(aenimaMagicBook, sorcerer.getEquippedItem());
     }
 
-    @Override
-    public void isAttackedByTest() {
-        super.isAttackedByTest();
-    }
-
-    @Override
-    @Test
-    public void attackTest() {
-        super.attackTest();
-    }
 }

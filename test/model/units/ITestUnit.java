@@ -137,8 +137,8 @@ public interface ITestUnit {
 
 
   @Test
-  void isAttackedByTest();
+  void attackTest();
 
   @Test
-  void attackTest();
+  void swapItemsTest();
 }

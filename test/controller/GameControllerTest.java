@@ -1,18 +1,16 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
-import model.Tactician.*;
+import model.Tactician.Tactician;
 import model.map.Field;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -47,6 +45,7 @@ class GameControllerTest {
     assertEquals(128, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = new Random(randomSeed);
+    testRandom.setSeed(20);
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
     //    las dimensiones definidas y que sea conexo.
@@ -61,6 +60,8 @@ class GameControllerTest {
   @Test
   void getTurnOwner() {
     //  En este caso deben hacer lo mismo que para el mapa
+
+
   }
 
   @Test
@@ -142,8 +143,11 @@ class GameControllerTest {
   }
 
   // Desde aquí en adelante, los tests deben definirlos completamente ustedes
+    //Estos tests corresponden a la parte de Tacticians que debe supervisar el Controller
   @Test
   void getSelectedUnit() {
+    Tactician tactician = new Tactician();
+    tactician.getSelectedUnit();
   }
 
   @Test

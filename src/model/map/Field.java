@@ -141,11 +141,8 @@ public class Field {
     return cell1.isNeighbour(cell2);
   }
 
-  /**
-   *
-   * @return the size of the map
-   */
-    public int getSize() {
-      return 1;
-    }
+
+  public int getSize() {
+      return 0;
+  }
 }

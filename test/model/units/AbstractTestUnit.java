@@ -63,11 +63,14 @@ public abstract class AbstractTestUnit implements ITestUnit {
    */
   @Override
   public void setWeapons() {
-    this.axe = new Axe("Axe", 10, 1, 2);
-    this.sword = new Sword("Sword", 10, 1, 2);
-    this.spear = new Spear("Spear", 10, 1, 2);
-    this.staff = new Staff("Staff", 10, 1, 2);
-    this.bow = new Bow("Bow", 10, 2, 3);
+    this.axe = new Axe("Axe", 30, 1, 3);
+    this.sword = new Sword("Sword", 30, 1, 3);
+    this.spear = new Spear("Spear", 30, 1, 3);
+    this.staff = new Staff("Staff", 30, 1, 3);
+    this.bow = new Bow("Bow", 30, 2, 4);
+    this.aenimaMagicBook = new AenimaMagicBook("AenimaMagicBook",30,1,3);
+    this.darkMagicBook = new DarkMagicBook("DarkMagicBook",30,1,3);
+    this.lightMagicBook = new LightMagicBook("LightMagicBook",30,1,3);
   }
 
   /**
@@ -208,6 +211,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   }
 
   @Override
+  @Test
   public void equipLightMagicBookTest() {
     checkEquippedItem(getLightMagicBook());
   }
@@ -219,6 +223,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   }
 
   @Override
+  @Test
   public void equipDarkMagicBookTest() {
     checkEquippedItem(getDarkMagicBook());
   }
@@ -229,6 +234,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   }
 
   @Override
+  @Test
   public void equipAenimaMagicBookTest() {
     checkEquippedItem(getAenimaMagicBook());
   }
@@ -238,63 +244,143 @@ public abstract class AbstractTestUnit implements ITestUnit {
     return aenimaMagicBook;
   }
 
-  @Test
-  @Override
-  public void isAttackedByTest() {
-    assertTrue(getTestUnit().isAttackedBy(new Archer(50,2,new Location(2,0))));
-    assertTrue(getTestUnit().isAttackedBy(new Cleric(50,2,new Location(2,0))));
-    assertTrue(getTestUnit().isAttackedBy(new Fighter(50,2,new Location(2,0))));
-    assertTrue(getTestUnit().isAttackedBy(new Hero(50,2,new Location(2,0))));
-    assertTrue(getTestUnit().isAttackedBy(new Sorcerer(50,2,new Location(2,0))));
-    assertTrue(getTestUnit().isAttackedBy(new SwordMaster(50,2,new Location(2,0))));
-  }
-
-
   @Override
   @Test
   public void attackTest() {
 
-   Location location0 = new Location(0,0);
-   Location location1 = new Location(0,1);
-   Location location2 = new Location(1,0);
-   Location location3 = new Location(1,1);
-   Location location4 = new Location(0,2);
-   Location location5 = new Location(2,0);
+    Location l0 = new Location(0,0);
+    Location l1 = new Location(0,1);
+    Location l2 = new Location(1,0);
+    Location l3 = new Location(0,2);
+    Location l4 = new Location(2,0);
+    Location l5 = new Location(2,2);
+    Location l6 = new Location(0,3);
+    Location l7 = new Location(3,0);
+    Location l8 = new Location(3,3);
 
-   location0.addNeighbour(location1);
-   location0.addNeighbour(location2);
-   location1.addNeighbour(location3);
-   location1.addNeighbour(location4);
-   location2.addNeighbour(location5);
+    l0.addNeighbour(l1);
+    l0.addNeighbour(l2);
+    l1.addNeighbour(l3);
+    l2.addNeighbour(l4);
+    l3.addNeighbour(l5);
+    l4.addNeighbour(l5);
+    l3.addNeighbour(l6);
+    l5.addNeighbour(l7);
+    l6.addNeighbour(l8);
+    l7.addNeighbour(l8);
 
-   Archer archer = new Archer(50,2,location0);
-   Cleric cleric = new Cleric(50,2,location1);
-   Fighter fighter = new Fighter(50,2,location2);
-   Hero hero = new Hero(50,2,location3);
-   Sorcerer sorcerer = new Sorcerer(50,2,location4);
-   SwordMaster swordMaster = new SwordMaster(50,2,location5);
 
-   archer.equipItem(getBow());
-   cleric.equipItem(getStaff());
-   fighter.equipItem(getAxe());
-   hero.equipItem(getSpear());
-   sorcerer.equipItem(getAenimaMagicBook());
-   swordMaster.equipItem(getSword());
 
-   int bowPower = getBow().getPower();
-   int staffPower = getStaff().getPower();
-   int axePower = getAxe().getPower();
-   int spearPower = getSpear().getPower();
-   int aenimaPower = getAenimaMagicBook().getPower();
-   int swordPower = getSword().getPower();
+    int axePower = axe.getPower();
+    int bowPower = bow.getPower();
+    int aenimaMagicBookPower = aenimaMagicBook.getPower();
+    int darkMagicBookPower = darkMagicBook.getPower();
+    int lightMagicBookPower = lightMagicBook.getPower();
+    int spearPower = spear.getPower();
+    int staffPower = staff.getPower();
+    int swordPower = sword.getPower();
 
-   cleric.attack(archer);
-   assertEquals(50-bowPower,cleric.getCurrentHitPoints());
 
-   fighter.attack(hero);
-   assertEquals(50-spearPower+20,fighter.getCurrentHitPoints());
+    Alpaca alpaca = new Alpaca(50,2,l0);
+    Archer archer = new Archer(50,2,l0);
+    Cleric cleric = new Cleric(50,2,l2);
+    Fighter fighter = new Fighter(50,2,l3);
+    Hero hero = new Hero(50,2,l4);
+    Sorcerer sorcerer_1 = new Sorcerer(50,2,l5);
+    Sorcerer sorcerer_2 = new Sorcerer(50,2,l6);
+    Sorcerer sorcerer_3 = new Sorcerer(50,2,l7);
+    SwordMaster swordMaster = new SwordMaster(50,2,l8);
 
-   sorcerer.attack(swordMaster);
-   assertEquals(50-swordPower*1.5,sorcerer.getCurrentHitPoints());
+    archer.equipItem(getBow());
+    cleric.equipItem(getStaff());
+    fighter.equipItem(getAxe());
+    hero.equipItem(getSpear());
+    sorcerer_1.equipItem(getAenimaMagicBook());
+    sorcerer_2.equipItem(getDarkMagicBook());
+    sorcerer_3.equipItem(getLightMagicBook());
+    swordMaster.equipItem(getSword());
+
+    //fighter vs hero
+    fighter.attack(hero);
+    assertEquals(50-axePower*1.5, hero.getCurrentHitPoints());
+    assertEquals(50-axePower+20, fighter.getCurrentHitPoints());
+
+    //archer vs sorcerer_1
+    archer.attack(sorcerer_1);
+    assertEquals(50-bowPower+20, sorcerer_1.getCurrentHitPoints());
+    assertEquals(50-aenimaMagicBookPower+20, archer.getCurrentHitPoints());
+
+    //sorcerer_2 vs sorcerer_3
+    sorcerer_2.attack(sorcerer_3);
+    assertEquals(50-darkMagicBookPower*1.5, sorcerer_3.getCurrentHitPoints());
+    assertEquals(50-lightMagicBookPower+20, sorcerer_2.getCurrentHitPoints());
+
+    //alpaca vs cleric
+    cleric.attack(alpaca);
+    assertEquals(50,alpaca.getCurrentHitPoints());
+    assertEquals(50,cleric.getCurrentHitPoints());
+
+
   }
+
+  @Override
+  @Test
+  public void swapItemsTest() {
+
+    Location l0 = new Location(0,0);
+    Location l1 = new Location(0,1);
+    Location l2 = new Location(1,0);
+    Location l3 = new Location(0,2);
+    Location l4 = new Location(2,0);
+    Location l5 = new Location(2,2);
+    Location l6 = new Location(0,3);
+    Location l7 = new Location(3,0);
+    Location l8 = new Location(3,3);
+
+    l0.addNeighbour(l1);
+    l0.addNeighbour(l2);
+    l1.addNeighbour(l3);
+    l2.addNeighbour(l4);
+    l3.addNeighbour(l5);
+    l4.addNeighbour(l5);
+    l3.addNeighbour(l6);
+    l5.addNeighbour(l7);
+    l6.addNeighbour(l8);
+    l7.addNeighbour(l8);
+
+    Archer archer = new Archer(50,2,l0);
+    Cleric cleric = new Cleric(50,2,l2);
+    Fighter fighter = new Fighter(50,2,l3);
+    Hero hero = new Hero(50,2,l4);
+    Sorcerer sorcerer_1 = new Sorcerer(50,2,l5);
+    Sorcerer sorcerer_2 = new Sorcerer(50,2,l6);
+    Sorcerer sorcerer_3 = new Sorcerer(50,2,l7);
+    SwordMaster swordMaster = new SwordMaster(50,2,l8);
+
+    archer.equipItem(getBow());
+    cleric.equipItem(getStaff());
+    fighter.equipItem(getAxe());
+    hero.equipItem(getSpear());
+    sorcerer_1.equipItem(getAenimaMagicBook());
+    sorcerer_2.equipItem(getDarkMagicBook());
+    sorcerer_3.equipItem(getLightMagicBook());
+    swordMaster.equipItem(getSword());
+
+    //bow swaps with staff
+
+    archer.swapItemWith(cleric);
+    assertEquals(staff,archer.getEquippedItem());
+    assertEquals(bow,cleric.getEquippedItem());
+
+    //axe can't swap with sword
+
+    fighter.swapItemWith(swordMaster);
+    assertEquals(axe,fighter.getEquippedItem());
+    assertEquals(sword,swordMaster.getEquippedItem());
+
+  }
+
+
 }
+
+

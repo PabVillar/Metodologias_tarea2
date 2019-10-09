@@ -38,4 +38,34 @@ public class Cleric extends AbstractUnit {
       equippedItem = item;
     }
   }
+
+  @Override
+  public void attack(IUnit unit) {
+    int minRange = this.getEquippedItem().getMinRange();
+    int maxRange = this.getEquippedItem().getMaxRange();
+
+    double thisRange = this.getLocation().distanceTo(unit.getLocation());
+
+
+    if (thisRange <= maxRange && thisRange >=minRange){
+      if (this.getEquippedItem() != null && unit.getEquippedItem() != null && this.isActive() && unit.isActive()){
+        unit.isHealedBy(this);
+
+        int unitMinRange = unit.getEquippedItem().getMinRange();
+        int unitMaxRange = unit.getEquippedItem().getMaxRange();
+
+        double unitRange = unit.getLocation().distanceTo(this.getLocation());
+        if(unit.isActive() && unit.canAttack()){
+          if (unitRange <= unitMaxRange && unitRange >= unitMinRange){
+            this.isAttackedBy(unit);
+
+          }
+
+
+        }
+      }
+
+    }
+
+  }
 }

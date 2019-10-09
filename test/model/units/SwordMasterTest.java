@@ -33,13 +33,4 @@ public class SwordMasterTest extends AbstractTestUnit {
     assertEquals(sword, swordMaster.getEquippedItem());
   }
 
-  @Override
-  public void isAttackedByTest() {
-    super.isAttackedByTest();
-  }
-
-  @Override
-  public void attackTest() {
-    super.attackTest();
-  }
 }

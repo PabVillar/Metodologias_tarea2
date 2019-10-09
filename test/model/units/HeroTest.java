@@ -35,15 +35,4 @@ public class HeroTest extends AbstractTestUnit {
     hero.equipItem(spear);
     assertEquals(spear, hero.getEquippedItem());
   }
-
-  @Override
-  public void isAttackedByTest() {
-    super.isAttackedByTest();
-  }
-
-  @Override
-  @Test
-  public void attackTest() {
-    super.attackTest();
-  }
 }

@@ -38,5 +38,10 @@ public class Alpaca extends AbstractUnit {
   public void equipItem(final IEquipableItem item) {
   }
 
+  @Override
+  public boolean canAttack(){
+    return false;
+  }
+
 
 }

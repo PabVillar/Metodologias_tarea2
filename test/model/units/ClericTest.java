@@ -35,16 +35,5 @@ public class ClericTest extends AbstractTestUnit {
     cleric.equipItem(staff);
     assertEquals(staff, cleric.getEquippedItem());
   }
-
-  @Override
-  @Test
-  public void isAttackedByTest() {
-    super.isAttackedByTest();
-  }
-
-  @Override
-  @Test
-  public void attackTest() {
-    super.attackTest();
-  }
 }
+

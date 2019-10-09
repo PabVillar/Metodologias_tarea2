@@ -41,15 +41,6 @@ public class ArcherTest extends AbstractTestUnit {
     archer.equipItem(bow);
     assertEquals(bow, archer.getEquippedItem());
   }
-
-  @Override
-  public void isAttackedByTest() {
-    super.isAttackedByTest();
-  }
-
-  @Override
-  @Test
-  public void attackTest() {
-    super.attackTest();
-  }
 }
+
+

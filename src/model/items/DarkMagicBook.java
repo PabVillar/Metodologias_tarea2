@@ -18,4 +18,25 @@ public class DarkMagicBook extends MagicBook {
     public int versus(IEquipableItem item) {
         return item.versusDarkMagicBook();
     }
+
+    @Override
+    public int versusAenimaMagicBook(){return 1;}
+
+    @Override
+    public int versusLightMagicBook(){return -1;}
+
+    @Override
+    public int versusDarkMagicBook(){return 0;}
+
+    @Override
+    public int versusAxe(){return 1;}
+
+    @Override
+    public int versusBow(){return 1;}
+
+    @Override
+    public int versusSpear(){return 1;}
+
+    @Override
+    public int versusSword(){return 1;}
 }

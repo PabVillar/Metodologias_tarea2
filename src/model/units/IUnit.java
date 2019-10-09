@@ -73,15 +73,19 @@ public interface IUnit {
    */
   void moveTo(Location targetLocation);
 
-  /**
-   *
-   * @return the result of a combat
-   */
-  double attack(IUnit unit);
 
   /**
-   * Checks if two units can fight
-   * @return true if the units chan fight
+   * A unit attacks to another unit
    */
-  boolean isAttackedBy(IUnit unit);
+  void attack(IUnit unit);
+
+  void isAttackedBy(IUnit unit);
+
+  boolean isActive();
+
+  boolean canAttack();
+
+  void isHealedBy(IUnit unit);
+
+  void giveItemTo(IUnit unit);
 }
