@@ -30,17 +30,13 @@ public abstract class AbstractUnit implements IUnit {
   /**
    * Creates a new Unit.
    *
-   * @param hitPoints
-   *     the maximum amount of damage a unit can sustain
-   * @param movement
-   *     the number of panels a unit can move
-   * @param location
-   *     the current position of this unit on the map
-   * @param maxItems
-   *     maximum amount of items this unit can carry
+   * @param hitPoints the maximum amount of damage a unit can sustain
+   * @param movement  the number of panels a unit can move
+   * @param location  the current position of this unit on the map
+   * @param maxItems  maximum amount of items this unit can carry
    */
   protected AbstractUnit(final double hitPoints, final int movement,
-      final Location location, final int maxItems, final IEquipableItem... items) {
+                         final Location location, final int maxItems, final IEquipableItem... items) {
     this.currentHitPoints = hitPoints;
     this.movement = movement;
     this.location = location;
@@ -88,22 +84,22 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public boolean isActive(){
-    if(this.getCurrentHitPoints() != 0){
+  public boolean isActive() {
+    if (this.getCurrentHitPoints() != 0) {
       return true;
     }
     return false;
   }
 
   @Override
-  public boolean canAttack(){
+  public boolean canAttack() {
     return true;
   }
 
   @Override
   public void moveTo(final Location targetLocation) {
     if (getLocation().distanceTo(targetLocation) <= getMovement()
-        && targetLocation.getUnit() == null) {
+            && targetLocation.getUnit() == null) {
       setLocation(targetLocation);
     }
   }
@@ -116,34 +112,35 @@ public abstract class AbstractUnit implements IUnit {
     double thisRange = this.getLocation().distanceTo(unit.getLocation());
 
 
-      if (thisRange <= maxRange && thisRange >=minRange){
-        if (this.getEquippedItem() != null && unit.getEquippedItem() != null && this.isActive() && unit.isActive()){
-          unit.isAttackedBy(this);
+    if (thisRange <= maxRange && thisRange >= minRange) {
+      if (this.getEquippedItem() != null && unit.getEquippedItem() != null && this.isActive() && unit.isActive()) {
+        unit.isAttackedBy(this);
 
-          int unitMinRange = unit.getEquippedItem().getMinRange();
-          int unitMaxRange = unit.getEquippedItem().getMaxRange();
+        int unitMinRange = unit.getEquippedItem().getMinRange();
+        int unitMaxRange = unit.getEquippedItem().getMaxRange();
 
-          double unitRange = unit.getLocation().distanceTo(this.getLocation());
-          if(unit.isActive() && unit.canAttack()){
-            if (unitRange <= unitMaxRange && unitRange >= unitMinRange){
-              this.isAttackedBy(unit);
+        double unitRange = unit.getLocation().distanceTo(this.getLocation());
+        if (unit.isActive() && unit.canAttack()) {
+          if (unitRange <= unitMaxRange && unitRange >= unitMinRange) {
+            this.isAttackedBy(unit);
 
-            }
+          }
 
 
         }
-     }
+      }
 
     }
 
   }
 
-  public void isAttackedBy(IUnit attacker){
+  @Override
+  public void isAttackedBy(IUnit attacker) {
     int attackerPower = attacker.getEquippedItem().getPower();
-    if (this.getEquippedItem()!=null){
-      switch (this.getEquippedItem().versus(attacker.getEquippedItem())){
+    if (this.getEquippedItem() != null) {
+      switch (this.getEquippedItem().versus(attacker.getEquippedItem())) {
         case 0:
-          this.setCurrentHitPoints(getCurrentHitPoints()-attackerPower);
+          this.setCurrentHitPoints(getCurrentHitPoints() - attackerPower);
           break;
         case 1:
           if (attackerPower >= 20) {
@@ -152,32 +149,49 @@ public abstract class AbstractUnit implements IUnit {
           }
           break;
         case -1:
-          this.setCurrentHitPoints(getCurrentHitPoints()-attackerPower*1.5);
+          this.setCurrentHitPoints(getCurrentHitPoints() - attackerPower * 1.5);
           break;
       }
-    }
-    else{
-      this.setCurrentHitPoints(getCurrentHitPoints()-attackerPower);
+    } else {
+      this.setCurrentHitPoints(getCurrentHitPoints() - attackerPower);
     }
 
-  }
-
-  public void isHealedBy(IUnit unit){
-    int healPower = unit.getEquippedItem().getPower();
-    this.setCurrentHitPoints(getCurrentHitPoints()+healPower);
   }
 
   @Override
-  public void giveItemTo(IUnit unit){
+  public void isHealedBy(IUnit unit) {
+    int healPower = unit.getEquippedItem().getPower();
+    this.setCurrentHitPoints(getCurrentHitPoints() + healPower);
+  }
+
+  @Override
+  public void giveItemTo(IUnit unit, IEquipableItem item) {
 
     double thisRange = this.getLocation().distanceTo(unit.getLocation());
 
-    if (thisRange == 1 && !unit.getItems().isFull()){
-      IEquipableItem item_1 = this.getEquippedItem();
-      unit.setEquippedItem(item_1);
-      this.setEquippedItem(null);
+    if (thisRange == 1 && this.getItems() != null && !this.isFull()) {
+      int index = this.getItems().indexOf(item);
+      IEquipableItem itemToGive = this.getItems().get(index);
+      unit.getItems().add(itemToGive);
+      this.getItems().remove(itemToGive);
     }
 
 
   }
+
+  @Override
+  public boolean isFull() {
+    boolean isFull = false;
+    for (int i = 0; i < this.getItems().size(); ++i) {
+      if (this.getItems().get(i) != null) {
+        isFull = true;
+      }
+      else {
+        isFull = false;
+        break;
+      }
+    }
+    return isFull;
+  }
 }
+

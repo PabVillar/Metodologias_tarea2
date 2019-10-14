@@ -1,6 +1,6 @@
 package controller;
 
-import model.Tactician.Tactician;
+import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.IUnit;

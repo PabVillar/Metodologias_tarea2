@@ -323,64 +323,6 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   }
 
-  @Override
-  @Test
-  public void swapItemsTest() {
-
-    Location l0 = new Location(0,0);
-    Location l1 = new Location(0,1);
-    Location l2 = new Location(1,0);
-    Location l3 = new Location(0,2);
-    Location l4 = new Location(2,0);
-    Location l5 = new Location(2,2);
-    Location l6 = new Location(0,3);
-    Location l7 = new Location(3,0);
-    Location l8 = new Location(3,3);
-
-    l0.addNeighbour(l1);
-    l0.addNeighbour(l2);
-    l1.addNeighbour(l3);
-    l2.addNeighbour(l4);
-    l3.addNeighbour(l5);
-    l4.addNeighbour(l5);
-    l3.addNeighbour(l6);
-    l5.addNeighbour(l7);
-    l6.addNeighbour(l8);
-    l7.addNeighbour(l8);
-
-    Archer archer = new Archer(50,2,l0);
-    Cleric cleric = new Cleric(50,2,l2);
-    Fighter fighter = new Fighter(50,2,l3);
-    Hero hero = new Hero(50,2,l4);
-    Sorcerer sorcerer_1 = new Sorcerer(50,2,l5);
-    Sorcerer sorcerer_2 = new Sorcerer(50,2,l6);
-    Sorcerer sorcerer_3 = new Sorcerer(50,2,l7);
-    SwordMaster swordMaster = new SwordMaster(50,2,l8);
-
-    archer.equipItem(getBow());
-    cleric.equipItem(getStaff());
-    fighter.equipItem(getAxe());
-    hero.equipItem(getSpear());
-    sorcerer_1.equipItem(getAenimaMagicBook());
-    sorcerer_2.equipItem(getDarkMagicBook());
-    sorcerer_3.equipItem(getLightMagicBook());
-    swordMaster.equipItem(getSword());
-
-    //bow swaps with staff
-
-    archer.swapItemWith(cleric);
-    assertEquals(staff,archer.getEquippedItem());
-    assertEquals(bow,cleric.getEquippedItem());
-
-    //axe can't swap with sword
-
-    fighter.swapItemWith(swordMaster);
-    assertEquals(axe,fighter.getEquippedItem());
-    assertEquals(sword,swordMaster.getEquippedItem());
-
-  }
-
-
 }
 
 

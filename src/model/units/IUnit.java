@@ -87,5 +87,7 @@ public interface IUnit {
 
   void isHealedBy(IUnit unit);
 
-  void giveItemTo(IUnit unit);
+  void giveItemTo(IUnit unit, IEquipableItem item);
+
+  boolean isFull();
 }

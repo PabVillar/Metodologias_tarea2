@@ -1,7 +1,10 @@
 package controller;
 
-import model.Tactician.Tactician;
+import model.items.*;
+import model.units.*;
+import model.Tactician;
 import model.map.Field;
+import model.map.Location;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +38,7 @@ class GameControllerTest {
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4, tacticians.size());
     for (int i = 0; i < tacticians.size(); i++) {
-      assertEquals("Player " + i+1, tacticians.get(i).getName());
+      assertEquals("Player " + i, tacticians.get(i + 1).getName());
     }
   }
 
@@ -45,7 +48,6 @@ class GameControllerTest {
     assertEquals(128, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = new Random(randomSeed);
-    testRandom.setSeed(20);
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
     //    las dimensiones definidas y que sea conexo.
@@ -60,8 +62,6 @@ class GameControllerTest {
   @Test
   void getTurnOwner() {
     //  En este caso deben hacer lo mismo que para el mapa
-
-
   }
 
   @Test
@@ -132,7 +132,7 @@ class GameControllerTest {
     IntStream.range(0, 2).forEach(i -> controller.endTurn());
     List<String> winners = controller.getWinners();
     assertEquals(2, winners.size());
-    assertTrue(List.of("Player 1", "Player 3").containsAll(winners));
+    assertTrue(List.of("Player 1", "Player 2").containsAll(winners));
 
     controller.initEndlessGame();
     for (int i = 0; i < 3; i++) {
@@ -143,19 +143,43 @@ class GameControllerTest {
   }
 
   // Desde aquí en adelante, los tests deben definirlos completamente ustedes
-    //Estos tests corresponden a la parte de Tacticians que debe supervisar el Controller
   @Test
   void getSelectedUnit() {
-    Tactician tactician = new Tactician();
-    tactician.getSelectedUnit();
+
+    assertEquals(null, controller.getSelectedUnit());
+
+    Sorcerer sorcerer = new Sorcerer(50,2,new Location (0,0));
+
+    controller.selectUnitIn(0,0);
+
+    assertEquals(sorcerer,controller.getSelectedUnit());
+
+
   }
 
   @Test
   void selectUnitIn() {
+    Archer archer = new Archer(50,2,new Location(0,0));
+    controller.selectUnitIn(0,0);
+
+
   }
 
   @Test
   void getItems() {
+    Alpaca alpaca = new Alpaca(50,2,new Location(0,0));
+    Bow bow = new Bow("bow",30,2,4);
+    Sword sword = new Sword("sword",30,1,3);
+    Axe axe = new Axe("axe",30,1,3);
+    MagicBook aenimaMagicBook = new AenimaMagicBook("aenimaMagicBook",30,1,3);
+    alpaca.items.add(bow);
+    alpaca.items.add(sword);
+    alpaca.items.add(axe);
+    alpaca.items.add(aenimaMagicBook);
+
+    controller.selectUnitIn(0,0);
+    assertEquals(alpaca.getItems(),controller.getItems());
+
   }
 
   @Test

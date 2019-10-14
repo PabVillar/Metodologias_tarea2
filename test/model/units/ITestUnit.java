@@ -139,6 +139,4 @@ public interface ITestUnit {
   @Test
   void attackTest();
 
-  @Test
-  void swapItemsTest();
 }
