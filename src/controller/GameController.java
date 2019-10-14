@@ -173,4 +173,8 @@ public class GameController {
   public void giveItemTo(int x, int y) {
 
   }
+
+  public IEquipableItem getSelectedItem() {
+    return null;
+  }
 }

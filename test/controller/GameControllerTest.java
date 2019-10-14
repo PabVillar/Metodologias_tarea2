@@ -172,10 +172,10 @@ class GameControllerTest {
     Sword sword = new Sword("sword",30,1,3);
     Axe axe = new Axe("axe",30,1,3);
     MagicBook aenimaMagicBook = new AenimaMagicBook("aenimaMagicBook",30,1,3);
-    alpaca.items.add(bow);
-    alpaca.items.add(sword);
-    alpaca.items.add(axe);
-    alpaca.items.add(aenimaMagicBook);
+    alpaca.getItems().add(bow);
+    alpaca.getItems().add(sword);
+    alpaca.getItems().add(axe);
+    alpaca.getItems().add(aenimaMagicBook);
 
     controller.selectUnitIn(0,0);
     assertEquals(alpaca.getItems(),controller.getSelectedUnit().getItems());
@@ -223,10 +223,47 @@ class GameControllerTest {
 
   @Test
   void selectItem() {
-    
+    Cleric cleric = new Cleric(50,2,new Location(0,2));
+    Staff staff_1 = new Staff("staff",30,1,3);
+    Staff staff_2 = new Staff("staff_2",20,1,3);
+    Staff staff_3 = new Staff("staff_3",10,1,3);
+
+    cleric.getItems().add(staff_1);
+    cleric.getItems().add(staff_2);
+    cleric.getItems().add(staff_3);
+
+    controller.selectUnitIn(0,2);
+    controller.selectItem(1);
+
+    assertEquals(cleric.getItems().get(1),controller.getSelectedItem());
+
+  }
+
+  @Test
+  void getSelectedItem(){
+
   }
 
   @Test
   void giveItemTo() {
+    Location l0 = new Location(0,0);
+    Location l1 = new Location(0,1);
+    l0.addNeighbour(l1);
+
+    Archer archer = new Archer(50,2,l0);
+    Sorcerer sorcerer = new Sorcerer(50,2,l1);
+
+    Bow bow = new Bow("bow",30,2,4);
+    DarkMagicBook darkMagicBook = new DarkMagicBook("darkMagicBook",30,1,3);
+
+    archer.getItems().add(bow);
+    sorcerer.getItems().add(darkMagicBook);
+
+    controller.selectUnitIn(0,0);
+    controller.selectItem(0);
+    controller.giveItemTo(0,1);
+
+    assertEquals(bow,sorcerer.getItems().get(1));
+
   }
 }
