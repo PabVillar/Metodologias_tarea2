@@ -178,20 +178,52 @@ class GameControllerTest {
     alpaca.items.add(aenimaMagicBook);
 
     controller.selectUnitIn(0,0);
-    assertEquals(alpaca.getItems(),controller.getItems());
+    assertEquals(alpaca.getItems(),controller.getSelectedUnit().getItems());
 
   }
 
   @Test
   void equipItem() {
+    Archer archer = new Archer(50,2,new Location(0,0));
+    Bow bow = new Bow("bow",30,2,4);
+    Sword sword = new Sword("sword",30,1,3);
+    Axe axe = new Axe("axe",30,1,3);
+    archer.getItems().add(bow);
+    archer.getItems().add(sword);
+    archer.getItems().add(axe);
+    archer.equipItem(bow);
+
+    controller.selectUnitIn(0,0);
+    assertEquals(bow,controller.getSelectedUnit().getEquippedItem());
+
   }
 
   @Test
   void useItemOn() {
+    Location l0 = new Location(0,0);
+    Location l1 = new Location(0,1);
+
+    l0.addNeighbour(l1);
+
+    Hero hero = new Hero(50,2, l0);
+    SwordMaster swordMaster = new SwordMaster(50,2,l1);
+
+    Spear spear = new Spear("spear",30,1,3);
+    Sword sword = new Sword("sword",30,1,3);
+
+    hero.equipItem(spear);
+    swordMaster.equipItem(sword);
+
+    controller.selectUnitIn(0,0);
+    controller.useItemOn(0,1);
+
+    assertEquals(50-1.5*spear.getPower(),controller.getSelectedUnit().getCurrentHitPoints());
+
   }
 
   @Test
   void selectItem() {
+    
   }
 
   @Test
