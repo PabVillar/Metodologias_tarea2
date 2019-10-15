@@ -195,7 +195,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   }
 
   /**
-   * @return the test field
+   * @return the test fieldSí. Por lo que tengo entendido, corresponde al quórum que se establece para plebiscitos en la facultad
    */
   @Override
   public Field getField() {
@@ -216,7 +216,10 @@ public abstract class AbstractTestUnit implements ITestUnit {
     checkEquippedItem(getLightMagicBook());
   }
 
-
+    /**
+     *
+     * @return the test light magic book
+     */
   @Override
   public LightMagicBook getLightMagicBook() {
     return lightMagicBook;
@@ -228,6 +231,10 @@ public abstract class AbstractTestUnit implements ITestUnit {
     checkEquippedItem(getDarkMagicBook());
   }
 
+    /**
+     *
+     * @return the test dark magic book
+     */
   @Override
   public DarkMagicBook getDarkMagicBook() {
     return darkMagicBook;
@@ -239,11 +246,19 @@ public abstract class AbstractTestUnit implements ITestUnit {
     checkEquippedItem(getAenimaMagicBook());
   }
 
+    /**
+     *
+     * @return the test aenima magic book
+     */
   @Override
   public AenimaMagicBook getAenimaMagicBook() {
     return aenimaMagicBook;
   }
 
+    /**
+     * Checks if units attack correctly
+     * Cleric just can heal another unit
+     */
   @Override
   @Test
   public void attackTest() {
@@ -323,6 +338,45 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   }
 
+    /**
+     * Checks if a item was correctly added to the inventory
+     */
+    @Test
+    @Override
+    public void addItemsToInventory(){
+      Archer archer = new Archer(50,2,new Location(0,0));
+
+      assertTrue(archer.getItems().isEmpty());
+
+      archer.addItems(bow);
+
+      assertTrue(archer.getItems().contains(bow));
+    }
+
+    /**
+     * Checks if a unit can correctly give an item to another unit
+     */
+    @Test
+    @Override
+    public void giveItemTo(){
+      Location l0 = new Location(0,0);
+      Location l1 = new Location(0,1);
+
+      l0.addNeighbour(l1);
+
+      Archer archer = new Archer(50,2,l0);
+      Sorcerer sorcerer = new Sorcerer(50,2,l1);
+
+      Bow bow = new Bow("bow",30,2,4);
+
+
+      archer.addItems(bow);
+
+      archer.giveItemTo(sorcerer,bow);
+      assertFalse(archer.items.contains(bow));
+      assertTrue(sorcerer.items.contains(bow));
+
+  }
 }
 
 

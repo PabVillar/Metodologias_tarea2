@@ -139,4 +139,9 @@ public interface ITestUnit {
   @Test
   void attackTest();
 
+  @Test
+  void addItemsToInventory();
+
+  @Test
+  void giveItemTo();
 }

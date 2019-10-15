@@ -64,6 +64,9 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public void addItems(IEquipableItem item){this.items.add(item);}
+
+  @Override
   public void setEquippedItem(final IEquipableItem item) {
     this.equippedItem = item;
   }
@@ -169,11 +172,11 @@ public abstract class AbstractUnit implements IUnit {
 
     double thisRange = this.getLocation().distanceTo(unit.getLocation());
 
-    if (thisRange == 1 && this.getItems() != null && !this.isFull()) {
+    if (thisRange == 1 && this.getItems() != null && !unit.isFull()) {
       int index = this.getItems().indexOf(item);
       IEquipableItem itemToGive = this.getItems().get(index);
-      unit.getItems().add(itemToGive);
-      this.getItems().remove(itemToGive);
+      unit.addItems(itemToGive);
+      this.items.remove(itemToGive);
     }
 
 
@@ -182,8 +185,8 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public boolean isFull() {
     boolean isFull = false;
-    for (int i = 0; i < this.getItems().size(); ++i) {
-      if (this.getItems().get(i) != null) {
+    for (int i = 0; i < this.items.size(); ++i) {
+      if (this.items.get(i) != null) {
         isFull = true;
       }
       else {

@@ -45,6 +45,8 @@ public interface IUnit {
    */
   IEquipableItem getEquippedItem();
 
+  void addItems(IEquipableItem item);
+
   /**
    * @param item
    *     the item to be equipped
@@ -79,15 +81,41 @@ public interface IUnit {
    */
   void attack(IUnit unit);
 
+  /**
+   *
+   * @param unit
+   */
   void isAttackedBy(IUnit unit);
 
+  /**
+   *
+   * @return true if a unit has their hp > 0
+   */
   boolean isActive();
 
+  /**
+   *
+   * @return true if a unit can attack to another unit
+   */
   boolean canAttack();
 
+  /**
+   * a Cleric can heal another unit
+   * @param unit
+   */
   void isHealedBy(IUnit unit);
 
+
+  /**
+   * a unit can give an item from their inventory to another unit
+   * @param unit
+   * @param item
+   */
   void giveItemTo(IUnit unit, IEquipableItem item);
 
+  /**
+   * checks if a unit can receive an item
+   * @return true if the inventory of the unit is full
+   */
   boolean isFull();
 }
