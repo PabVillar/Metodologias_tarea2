@@ -5,6 +5,8 @@ import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.IUnit;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 /**
@@ -15,7 +17,12 @@ import java.util.List;
  * @version 2.0
  * @since 2.0
  */
-public class GameController {
+public class GameController implements PropertyChangeListener {
+
+  private List<Tactician> tacticians;
+  private Field map;
+
+
 
   /**
    * Creates the controller for a new game.
@@ -33,14 +40,14 @@ public class GameController {
    * @return the list of all the tacticians participating in the game.
    */
   public List<Tactician> getTacticians() {
-    return null;
+    return tacticians;
   }
 
   /**
    * @return the map of the current game
    */
   public Field getGameMap() {
-    return null;
+    return map;
   }
 
   /**
@@ -176,5 +183,11 @@ public class GameController {
 
   public IEquipableItem getSelectedItem() {
     return null;
+  }
+
+
+  @Override
+  public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+
   }
 }

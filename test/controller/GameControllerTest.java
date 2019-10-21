@@ -48,6 +48,7 @@ class GameControllerTest {
     assertEquals(128, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = new Random(randomSeed);
+    testRandom.setSeed(128);
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
     //    las dimensiones definidas y que sea conexo.
@@ -62,6 +63,11 @@ class GameControllerTest {
   @Test
   void getTurnOwner() {
     //  En este caso deben hacer lo mismo que para el mapa
+    //Invariantes: Que los players existan
+    List<Tactician> players = controller.getTacticians();
+    assertEquals(4,players.size());
+    Random testRandomPlayer = new Random(randomSeed);
+
   }
 
   @Test
@@ -90,7 +96,7 @@ class GameControllerTest {
   void endTurn() {
     Tactician firstPlayer = controller.getTurnOwner();
     // Nuevamente, para determinar el orden de los jugadores se debe usar una semilla
-    Tactician secondPlayer = new Tactician(); // <- Deben cambiar esto (!)
+    Tactician secondPlayer = new Tactician("Player 2"); // <- Deben cambiar esto (!)
     assertNotEquals(secondPlayer.getName(), firstPlayer.getName());
 
     controller.endTurn();
@@ -146,22 +152,20 @@ class GameControllerTest {
   @Test
   void getSelectedUnit() {
 
-    assertEquals(null, controller.getSelectedUnit());
-
-    Sorcerer sorcerer = new Sorcerer(50,2,new Location (0,0));
-
-    controller.selectUnitIn(0,0);
-
-    assertEquals(sorcerer,controller.getSelectedUnit());
 
 
   }
 
   @Test
   void selectUnitIn() {
-    Archer archer = new Archer(50,2,new Location(0,0));
+
+    assertNull(controller.getSelectedUnit());
+
+    Sorcerer sorcerer = new Sorcerer(50,2,new Location (0,0));
+
     controller.selectUnitIn(0,0);
 
+    assertEquals(sorcerer,controller.getSelectedUnit());
 
   }
 
