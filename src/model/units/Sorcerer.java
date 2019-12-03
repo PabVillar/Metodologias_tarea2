@@ -34,6 +34,7 @@ public class Sorcerer extends AbstractUnit{
      */
     @Override
     public void equipItem(final IEquipableItem item) {
+        item.equipToSorcerer(this);
         if (item instanceof MagicBook) {
             equippedItem = item;
         }

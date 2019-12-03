@@ -1,6 +1,6 @@
 package model.items;
 
-import model.units.IUnit;
+import model.units.*;
 
 /**
  * This interface represents the <i>weapons</i> that the units of the game can use.
@@ -20,6 +20,7 @@ public interface IEquipableItem {
    *     the unit that will be quipped with the item
    */
   void equipTo(IUnit unit);
+
 
   /**
    * @return the unit that has currently equipped this item
@@ -64,4 +65,15 @@ public interface IEquipableItem {
 
   int versusAenimaMagicBook();
 
+  void equipToArcher(Archer archer);
+
+  void equipToCleric(Cleric cleric);
+
+    void equipToFighter(Fighter fighter);
+
+    void equipToHero(Hero hero);
+
+    void equipToSwordMaster(SwordMaster swordMaster);
+
+    void equipToSorcerer(Sorcerer sorcerer);
 }

@@ -1,5 +1,9 @@
 package model.items;
 
+import model.units.Archer;
+import model.units.Cleric;
+import model.units.IUnit;
+
 /**
  * @author Ignacio Slater Muñoz
  * @since
@@ -48,4 +52,11 @@ public class Bow extends AbstractItem {
   public int versus(IEquipableItem item) {
     return item.versusBow();
   }
+
+  @Override
+  public void equipToArcher(Archer archer){
+    this.equipTo(archer);
+  }
+
+
 }

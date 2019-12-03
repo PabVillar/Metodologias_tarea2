@@ -1,5 +1,7 @@
 package model.items;
 
+import model.units.Sorcerer;
+
 /**
  * @author Pablo Villar Mascaro
  *
@@ -47,6 +49,11 @@ public abstract class MagicBook extends AbstractItem implements IMagicBook {
     @Override
     public int versusStaff() {
         return 1;
+    }
+
+    @Override
+    public void equipToSorcerer(Sorcerer sorcerer){
+        this.equipTo(sorcerer);
     }
 
 }

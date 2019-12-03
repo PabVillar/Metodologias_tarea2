@@ -152,7 +152,7 @@ class GameControllerTest {
   @Test
   void getSelectedUnit() {
 
-
+    controller.getTurnOwner().getSelectedUnit();
 
   }
 
@@ -176,10 +176,10 @@ class GameControllerTest {
     Sword sword = new Sword("sword",30,1,3);
     Axe axe = new Axe("axe",30,1,3);
     MagicBook aenimaMagicBook = new AenimaMagicBook("aenimaMagicBook",30,1,3);
-    alpaca.getItems().add(bow);
-    alpaca.getItems().add(sword);
-    alpaca.getItems().add(axe);
-    alpaca.getItems().add(aenimaMagicBook);
+    alpaca.addItems(bow);
+    alpaca.addItems(sword);
+    alpaca.addItems(axe);
+    alpaca.addItems(aenimaMagicBook);
 
     controller.selectUnitIn(0,0);
     assertEquals(alpaca.getItems(),controller.getSelectedUnit().getItems());
@@ -192,9 +192,9 @@ class GameControllerTest {
     Bow bow = new Bow("bow",30,2,4);
     Sword sword = new Sword("sword",30,1,3);
     Axe axe = new Axe("axe",30,1,3);
-    archer.getItems().add(bow);
-    archer.getItems().add(sword);
-    archer.getItems().add(axe);
+    archer.addItems(bow);
+    archer.addItems(sword);
+    archer.addItems(axe);
     archer.equipItem(bow);
 
     controller.selectUnitIn(0,0);
@@ -232,9 +232,9 @@ class GameControllerTest {
     Staff staff_2 = new Staff("staff_2",20,1,3);
     Staff staff_3 = new Staff("staff_3",10,1,3);
 
-    cleric.getItems().add(staff_1);
-    cleric.getItems().add(staff_2);
-    cleric.getItems().add(staff_3);
+    cleric.addItems(staff_1);
+    cleric.addItems(staff_2);
+    cleric.addItems(staff_3);
 
     controller.selectUnitIn(0,2);
     controller.selectItem(1);
@@ -260,8 +260,8 @@ class GameControllerTest {
     Bow bow = new Bow("bow",30,2,4);
     DarkMagicBook darkMagicBook = new DarkMagicBook("darkMagicBook",30,1,3);
 
-    archer.getItems().add(bow);
-    sorcerer.getItems().add(darkMagicBook);
+    archer.addItems(bow);
+    sorcerer.addItems(darkMagicBook);
 
     controller.selectUnitIn(0,0);
     controller.selectItem(0);

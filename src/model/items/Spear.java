@@ -1,5 +1,7 @@
 package model.items;
 
+import model.units.Hero;
+
 /**
  * This class represents a <i>spear</i>.
  * <p>
@@ -69,5 +71,10 @@ public class Spear extends AbstractItem {
   @Override
   public int versus(IEquipableItem item) {
     return item.versusSpear();
+  }
+
+  @Override
+  public void equipToHero(Hero hero){
+      this.equipTo(hero);
   }
 }

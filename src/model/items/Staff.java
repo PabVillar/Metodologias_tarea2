@@ -1,5 +1,8 @@
 package model.items;
 
+import model.units.Archer;
+import model.units.Cleric;
+
 /**
  * This class represents a <i>Staff</i> type item.
  * <p>
@@ -69,5 +72,10 @@ public class Staff extends AbstractItem {
   @Override
   public int versus(IEquipableItem item) {
     return item.versusStaff();
+  }
+
+  @Override
+  public void equipToCleric(Cleric cleric){
+    this.equipTo(cleric);
   }
 }

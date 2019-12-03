@@ -1,5 +1,7 @@
 package model.items;
 
+import model.units.SwordMaster;
+
 /**
  * This class represents a sword type item.
  * <p>
@@ -29,5 +31,10 @@ public class Sword extends AbstractItem {
   @Override
   public int versus(IEquipableItem item) {
     return item.versusSword();
+  }
+
+  @Override
+  public void equipToSwordMaster(SwordMaster swordMaster){
+    this.equipTo(swordMaster);
   }
 }

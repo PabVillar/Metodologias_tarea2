@@ -115,7 +115,8 @@ public class GameController implements PropertyChangeListener {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return null;
+
+    return getTurnOwner().getSelectedUnit();
   }
 
   /**
@@ -178,6 +179,7 @@ public class GameController implements PropertyChangeListener {
    *     vertical position of the target
    */
   public void giveItemTo(int x, int y) {
+
 
   }
 

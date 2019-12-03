@@ -1,5 +1,6 @@
 package model.items;
 
+import model.units.*;
 import model.units.IUnit;
 
 /**
@@ -40,6 +41,7 @@ public abstract class AbstractItem implements IEquipableItem {
     unit.setEquippedItem(this);
     owner = unit;
   }
+
 
   @Override
   public IUnit getOwner() {
@@ -105,4 +107,24 @@ public abstract class AbstractItem implements IEquipableItem {
   public int versusAenimaMagicBook() {
     return 0;
   }
+
+  @Override
+  public void equipToArcher(Archer archer){}
+
+  @Override
+  public void equipToCleric(Cleric cleric){}
+
+  @Override
+  public void equipToFighter(Fighter fighter){}
+
+  @Override
+  public void equipToHero(Hero hero){}
+
+  @Override
+  public void equipToSwordMaster(SwordMaster swordMaster){}
+
+  @Override
+  public void equipToSorcerer(Sorcerer sorcerer){}
+
+
 }

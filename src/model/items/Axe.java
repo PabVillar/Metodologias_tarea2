@@ -1,5 +1,7 @@
 package model.items;
 
+import model.units.Fighter;
+
 /**
  * This class represents an Axe.
  * <p>
@@ -69,5 +71,10 @@ public class Axe extends AbstractItem {
   @Override
   public int versus(IEquipableItem item) {
     return item.versusAxe();
+  }
+
+  @Override
+  public void equipToFighter(Fighter fighter){
+    this.equipTo(fighter);
   }
 }
