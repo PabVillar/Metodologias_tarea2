@@ -1,5 +1,7 @@
 package model;
 
+import model.items.IEquipableItem;
+import model.map.Location;
 import model.units.IUnit;
 
 import java.util.List;
@@ -12,8 +14,11 @@ public class Tactician {
     /**
      * Sets tactician's name and units
      */
-    public Tactician(String name, List<IUnit> units) {
+    public Tactician(String name) {
         this.name = name;
+    }
+
+    public void setUnits(List<IUnit> units) {
         this.units = units;
     }
 
@@ -25,12 +30,21 @@ public class Tactician {
 
 
     public void selectUnit(IUnit unit){
-        this.selectedUnit = unit;
+        if (getUnits().contains(unit)){
+            this.selectedUnit = unit;
+        }
 
     }
 
     public IUnit getSelectedUnit() {
-
         return this.selectedUnit;
+    }
+
+    public void selectItem(IEquipableItem item){
+
+    }
+
+    public IEquipableItem getSelectedItem() {
+        return null;
     }
 }

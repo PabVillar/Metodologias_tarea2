@@ -3,6 +3,7 @@ package controller;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.Location;
 import model.units.IUnit;
 
 import java.beans.PropertyChangeEvent;
@@ -17,9 +18,10 @@ import java.util.List;
  * @version 2.0
  * @since 2.0
  */
-public class GameController implements PropertyChangeListener {
+public class GameController {
 
   private List<Tactician> tacticians;
+  private Tactician currentTactician;
   private Field map;
 
 
@@ -54,7 +56,7 @@ public class GameController implements PropertyChangeListener {
    * @return the tactician that's currently playing
    */
   public Tactician getTurnOwner() {
-    return null;
+    return currentTactician;
   }
 
   /**
@@ -135,7 +137,8 @@ public class GameController implements PropertyChangeListener {
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-    return null;
+
+    return getSelectedUnit().getItems();
   }
 
   /**
@@ -145,7 +148,8 @@ public class GameController implements PropertyChangeListener {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
-
+    IEquipableItem item = getSelectedUnit().getItems().get(index);
+    currentTactician.getSelectedUnit().setEquippedItem(item);
   }
 
   /**
@@ -179,17 +183,17 @@ public class GameController implements PropertyChangeListener {
    *     vertical position of the target
    */
   public void giveItemTo(int x, int y) {
-
+    IUnit receiver = map.getCell(x,y).getUnit();
+    IEquipableItem item = getSelectedItem();
+    currentTactician.getSelectedUnit().giveItemTo(receiver,item);
 
   }
+
 
   public IEquipableItem getSelectedItem() {
-    return null;
+
+    return currentTactician.getSelectedItem();
   }
 
 
-  @Override
-  public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-
-  }
 }
