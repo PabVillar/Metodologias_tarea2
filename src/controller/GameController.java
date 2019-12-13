@@ -1,14 +1,13 @@
 package controller;
 
+import java.util.List;
+
+import controller.unitFactory.IUnitFactory;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
 import model.units.IUnit;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 
 /**
  * Controller of the game.
@@ -19,12 +18,6 @@ import java.util.List;
  * @since 2.0
  */
 public class GameController {
-
-  private List<Tactician> tacticians;
-  private Tactician currentTactician;
-  private Field map;
-
-
 
   /**
    * Creates the controller for a new game.
@@ -42,21 +35,21 @@ public class GameController {
    * @return the list of all the tacticians participating in the game.
    */
   public List<Tactician> getTacticians() {
-    return tacticians;
+    return null;
   }
 
   /**
    * @return the map of the current game
    */
   public Field getGameMap() {
-    return map;
+    return null;
   }
 
   /**
    * @return the tactician that's currently playing
    */
   public Tactician getTurnOwner() {
-    return currentTactician;
+    return null;
   }
 
   /**
@@ -117,8 +110,7 @@ public class GameController {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-
-    return getTurnOwner().getSelectedUnit();
+    return null;
   }
 
   /**
@@ -137,8 +129,7 @@ public class GameController {
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-
-    return getSelectedUnit().getItems();
+    return null;
   }
 
   /**
@@ -148,8 +139,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
-    IEquipableItem item = getSelectedUnit().getItems().get(index);
-    currentTactician.getSelectedUnit().setEquippedItem(item);
+
   }
 
   /**
@@ -183,16 +173,7 @@ public class GameController {
    *     vertical position of the target
    */
   public void giveItemTo(int x, int y) {
-    IUnit receiver = map.getCell(x,y).getUnit();
-    IEquipableItem item = getSelectedItem();
-    currentTactician.getSelectedUnit().giveItemTo(receiver,item);
 
-  }
-
-
-  public IEquipableItem getSelectedItem() {
-
-    return currentTactician.getSelectedItem();
   }
 
 

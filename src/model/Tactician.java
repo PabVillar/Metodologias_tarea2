@@ -1,50 +1,39 @@
 package model;
 
-import model.items.IEquipableItem;
-import model.map.Location;
 import model.units.IUnit;
 
-import java.util.List;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class Tactician {
     private String name;
-    private List<IUnit> units;
     private IUnit selectedUnit;
+    private PropertyChangeSupport support;
 
-    /**
-     * Sets tactician's name and units
-     */
     public Tactician(String name) {
         this.name = name;
     }
 
-    public void setUnits(List<IUnit> units) {
-        this.units = units;
-    }
-
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public List<IUnit> getUnits(){ return List.copyOf(units);}
+    public Tactician(){
+        support = new PropertyChangeSupport(this);
+    }
 
+    public void addPropertyChangeListener(PropertyChangeListener pcl){
+        support.addPropertyChangeListener(pcl);
+    }
 
-    public void selectUnit(IUnit unit){
-        if (getUnits().contains(unit)){
-            this.selectedUnit = unit;
-        }
+    public void removePropertyChangeListener(PropertyChangeListener pcl){
+        support.removePropertyChangeListener(pcl);
+    }
+
+    public void selecUnitIn(int x, int y){
 
     }
 
-    public IUnit getSelectedUnit() {
-        return this.selectedUnit;
-    }
 
-    public void selectItem(IEquipableItem item){
 
-    }
-
-    public IEquipableItem getSelectedItem() {
-        return null;
-    }
 }
