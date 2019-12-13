@@ -124,13 +124,17 @@ public class GameController implements PropertyChangeListener {
     return currentTactician.getSelectedUnit();
   }
 
+  /**
+   * Communicates to the controller when tacticians want to select a unit in a cell
+   * @param evt
+   */
   public void propertyChange(PropertyChangeEvent evt){
-    this.setSelectedUnit((IUnit)evt.getNewValue());
+    Location cell = (Location)evt.getNewValue();
+    int x = cell.getColumn();
+    int y = cell.getRow();
+    this.selectUnitIn(x,y);
   }
 
-  private void setSelectedUnit(IUnit newValue) {
-    this.currentTactician.setSelectedUnit(newValue);
-  }
 
   /**
    * Selects a unit in the game map
@@ -141,14 +145,15 @@ public class GameController implements PropertyChangeListener {
    *     vertical position of the unit
    */
   public void selectUnitIn(int x, int y) {
-        this.currentTactician.selectUnitIn(x,y);
+        Location cell = this.getGameMap().getCell(x,y);
+        this.currentTactician.setSelectedUnit(cell.getUnit());
   }
 
   /**
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-    return null;
+    return this.getSelectedUnit().getItems();
   }
 
   /**

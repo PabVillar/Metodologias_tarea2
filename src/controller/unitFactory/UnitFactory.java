@@ -16,19 +16,35 @@ public abstract class UnitFactory implements IUnitFactory {
     private Location location;
     private IUnitFactory type;
 
+    /**
+     * Sets the hitpoints of the new unit
+     * @param hitPoints
+     */
     public void setHitPoints(int hitPoints){
         this.hitPoints = hitPoints;
     }
 
+    /**
+     * Sets the movement of the new unit
+     * @param movement
+     */
     public void setMovement(int movement){
         this.movement = movement;
     }
 
+    /**
+     * Sets the location of the new unit
+     * @param location
+     */
     public void setLocation(Location location){
         this.location = location;
     }
 
 
+    /**
+     * Sets the type of the unit
+     * @param type
+     */
     public void setType(IUnitFactory type){
         this.type = type;
     }
