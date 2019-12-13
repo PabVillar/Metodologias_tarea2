@@ -1,7 +1,10 @@
 package controller;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import controller.tacticianFactory.TacticianFactory;
 import controller.unitFactory.IUnitFactory;
 import model.Tactician;
 import model.items.IEquipableItem;
@@ -17,7 +20,10 @@ import model.units.IUnit;
  * @version 2.0
  * @since 2.0
  */
-public class GameController {
+public class GameController implements PropertyChangeListener {
+  private List<Tactician> tacticians;
+  private TacticianFactory tacticianFactory;
+  private Tactician currentTactician;
 
   /**
    * Creates the controller for a new game.
@@ -28,6 +34,11 @@ public class GameController {
    *     the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
+    for(int i = 0; i<numberOfPlayers; i++){
+      this.tacticianFactory.setName(i);
+      String name = this.tacticianFactory.getName();
+      this.tacticians.set(i, this.tacticianFactory.getTactician(name));
+    }
 
   }
 
@@ -35,7 +46,7 @@ public class GameController {
    * @return the list of all the tacticians participating in the game.
    */
   public List<Tactician> getTacticians() {
-    return null;
+    return this.tacticians;
   }
 
   /**
@@ -49,7 +60,7 @@ public class GameController {
    * @return the tactician that's currently playing
    */
   public Tactician getTurnOwner() {
-    return null;
+    return this.currentTactician;
   }
 
   /**
@@ -110,7 +121,15 @@ public class GameController {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return null;
+    return currentTactician.getSelectedUnit();
+  }
+
+  public void propertyChange(PropertyChangeEvent evt){
+    this.setSelectedUnit((IUnit)evt.getNewValue());
+  }
+
+  private void setSelectedUnit(IUnit newValue) {
+    this.currentTactician.setSelectedUnit(newValue);
   }
 
   /**
@@ -122,7 +141,7 @@ public class GameController {
    *     vertical position of the unit
    */
   public void selectUnitIn(int x, int y) {
-
+        this.currentTactician.selectUnitIn(x,y);
   }
 
   /**
