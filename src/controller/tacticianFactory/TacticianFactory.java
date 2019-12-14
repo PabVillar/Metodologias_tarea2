@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class TacticianFactory {
     private static final HashMap<String, Tactician> tacticianMap = new HashMap<String,Tactician>();
-    private String name;
+    private static String name;
 
     /**
      * Sets the tactician's names
@@ -14,15 +14,19 @@ public class TacticianFactory {
      *      The number of the player
      */
     public void setName(int i){
-        this.name = "Player" + Integer.toString(i);
+        this.name = "Player " + i;
     }
 
     /**
      *
      * @return the name of the tactician
      */
-    public String getName() {
-        return this.name;
+    public static String getName() {
+        return name;
+    }
+
+    public static Tactician create(){
+        return new Tactician(getName());
     }
 
     /**
@@ -36,7 +40,7 @@ public class TacticianFactory {
            tactician = tacticianMap.get(name);
         }
         else{
-            tactician = new Tactician(name);
+            tactician = create();
             tacticianMap.put(name,tactician);
         }
         return tactician;

@@ -8,8 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
+
+import controller.itemFactory.*;
+
+import controller.unitFactory.*;
+
 import model.Tactician;
+import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.Location;
+import model.units.IUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +36,7 @@ class GameControllerTest {
   void setUp() {
     // Se define la semilla como un número aleatorio para generar variedad en los tests
     randomSeed = new Random().nextLong();
-    controller = new GameController(4, 128);
+    controller = new GameController(4, 7);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
   }
 
@@ -37,16 +45,18 @@ class GameControllerTest {
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4, tacticians.size());
     for (int i = 0; i < tacticians.size(); i++) {
-      assertEquals("Player " + i, tacticians.get(i + 1).getName());
+      assertEquals("Player " + i, tacticians.get(i).getName());
     }
   }
 
   @Test
   void getGameMap() {
     Field gameMap = controller.getGameMap();
-    assertEquals(128, gameMap.getSize()); // getSize deben definirlo
+    assertEquals(7, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = new Random(randomSeed);
+    testRandom.setSeed(randomSeed);
+
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
     //    las dimensiones definidas y que sea conexo.
@@ -61,6 +71,10 @@ class GameControllerTest {
   @Test
   void getTurnOwner() {
     //  En este caso deben hacer lo mismo que para el mapa
+    // Invariantes: que los tacticians existan y no existan dos tactician con el mismo turno
+    List<Tactician> tacticians = controller.getTacticians();
+    assertEquals(4,tacticians.size());
+
   }
 
   @Test
@@ -77,9 +91,11 @@ class GameControllerTest {
   @Test
   void getMaxRounds() {
     Random randomTurnSequence = new Random();
-    IntStream.range(0, 50).forEach(i -> {
-      controller.initGame(randomTurnSequence.nextInt());
-      assertEquals(randomTurnSequence.nextInt(), controller.getMaxRounds());
+    IntStream.range(0, 50).map(i -> randomTurnSequence.nextInt() & Integer.MAX_VALUE).forEach(nextInt -> {
+      controller.initGame(nextInt);
+      //System.out.println(nextInt);
+      assertEquals(nextInt, controller.getMaxRounds());
+      //System.out.println(nextInt);
     });
     controller.initEndlessGame();
     assertEquals(-1, controller.getMaxRounds());
@@ -101,18 +117,18 @@ class GameControllerTest {
   void removeTactician() {
     assertEquals(4, controller.getTacticians().size());
     controller.getTacticians()
-        .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
+            .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
 
     controller.removeTactician("Player 0");
     assertEquals(3, controller.getTacticians().size());
-    controller.getTacticians().forEach(tactician -> assertNotEquals("Player 1", tactician));
+    controller.getTacticians().forEach(tactician -> assertNotEquals("Player 0", tactician));
     controller.getTacticians()
-        .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
+            .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
 
     controller.removeTactician("Player 5");
     assertEquals(3, controller.getTacticians().size());
     controller.getTacticians()
-        .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
+            .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
   }
 
   @Test
@@ -121,7 +137,7 @@ class GameControllerTest {
     IntStream.range(0, 8).forEach(i -> controller.endTurn());
     assertEquals(4, controller.getWinners().size());
     controller.getWinners()
-        .forEach(player -> Assertions.assertTrue(testTacticians.contains(player)));
+            .forEach(player -> Assertions.assertTrue(testTacticians.contains(player)));
 
     controller.initGame(2);
     IntStream.range(0, 4).forEach(i -> controller.endTurn());
@@ -131,7 +147,7 @@ class GameControllerTest {
     IntStream.range(0, 2).forEach(i -> controller.endTurn());
     List<String> winners = controller.getWinners();
     assertEquals(2, winners.size());
-    assertTrue(List.of("Player 1", "Player 2").containsAll(winners));
+    assertTrue(List.of("Player 1", "Player 3").containsAll(winners));
 
     controller.initEndlessGame();
     for (int i = 0; i < 3; i++) {
@@ -144,14 +160,17 @@ class GameControllerTest {
   // Desde aquí en adelante, los tests deben definirlos completamente ustedes
   @Test
   void getSelectedUnit() {
+
   }
 
   @Test
   void selectUnitIn() {
+
   }
 
   @Test
   void getItems() {
+
   }
 
   @Test

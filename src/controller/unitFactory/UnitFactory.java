@@ -1,5 +1,6 @@
 package controller.unitFactory;
 
+import model.items.IEquipableItem;
 import model.map.Location;
 import model.units.IUnit;
 import model.units.NullUnit;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 
 import static java.lang.Math.min;
 
-public abstract class UnitFactory implements IUnitFactory {
+public class UnitFactory implements IUnitFactory {
 
     private static final HashMap<IUnitFactory, IUnit> unitMap = new HashMap<IUnitFactory,IUnit>();
     private int hitPoints = 50;
@@ -49,9 +50,35 @@ public abstract class UnitFactory implements IUnitFactory {
         this.type = type;
     }
 
+    /**
+     *
+     * @return the HP of the created unit
+     */
+    public int getHitPoints(){ return this.hitPoints; }
+
+    /**
+     *
+     * @return the movement of the created unit
+     */
+    public int getMovement(){ return this.movement; }
+
+
+    /**
+     *
+     * @return the location of the created unit
+     */
+    public Location getLocation(){ return this.location; }
+
+
+
+    @Override
+    public IUnit create(int hitPoints, int movement, Location position, IEquipableItem... items) {
+        return type.create(hitPoints,movement,position);
+    }
+
     @Override
     public IUnit createUnit(){
-        return this.type.create(this.hitPoints,this.movement,this.location);
+        return this.create(this.getHitPoints(),this.getMovement(),this.getLocation());
     }
 
 

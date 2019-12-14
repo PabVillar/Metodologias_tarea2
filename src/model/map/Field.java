@@ -143,7 +143,7 @@ public class Field {
 
 
   public int getSize() {
-    int size = map.size()*map.size();
+    int size = map.size();
 
     return size;
   }
