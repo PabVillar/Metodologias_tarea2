@@ -1,26 +1,21 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import controller.itemFactory.*;
-
-import controller.unitFactory.*;
-
 import model.Tactician;
+import model.items.Bow;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
+import model.units.Alpaca;
 import model.units.IUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -74,6 +69,7 @@ class GameControllerTest {
     // Invariantes: que los tacticians existan y no existan dos tactician con el mismo turno
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4,tacticians.size());
+
 
   }
 
@@ -161,31 +157,111 @@ class GameControllerTest {
   @Test
   void getSelectedUnit() {
 
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(0));
+    IUnit selectedUnit = controller.getTurnOwner().getSelectedUnit();
+    assertNotNull(selectedUnit);
+    assertEquals(Alpaca.class,selectedUnit.getClass());
   }
 
   @Test
   void selectUnitIn() {
+
+    Location position = controller.getGameMap().getCell(0,0);
+    controller.getTurnOwner().getUnits().get(0).setLocation(position);
+    controller.getTurnOwner().selectUnitIn(0,0);
+    assertEquals(Alpaca.class,controller.getTurnOwner().getSelectedUnit());
 
   }
 
   @Test
   void getItems() {
 
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(0));
+    for (int i = 0; i < controller.getTurnOwner().getItems().size(); i++){
+      controller.getTurnOwner().addToInventory(controller.getTurnOwner().getItems().get(i));
+    }
+    assertFalse(controller.getTurnOwner().getItems().isEmpty());
+    assertFalse(controller.getItems().isEmpty());
+    assertEquals(controller.getTurnOwner().getItems(),controller.getItems());
   }
 
   @Test
   void equipItem() {
+    IEquipableItem item = controller.getTurnOwner().getItems().get(0);
+    assertNotNull(item);
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(0));
+    for (int i = 0; i < controller.getTurnOwner().getItems().size(); i++){
+      controller.getTurnOwner().addToInventory(controller.getTurnOwner().getItems().get(i));
+    }
+    controller.getTurnOwner().equipItem(1);
+    assertEquals(item,controller.getTurnOwner().getSelectedUnit().getEquippedItem());
+
   }
 
   @Test
   void useItemOn() {
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(5));
+    for (int i = 0; i < controller.getTurnOwner().getItems().size(); i++){
+      controller.getTurnOwner().addToInventory(controller.getTurnOwner().getItems().get(i));
+    }
+    controller.getTurnOwner().equipItem(0);
+
+    Tactician target = controller.getTacticians().get(1);
+    IUnit targetUnit = target.getUnits().get(1);
+    Location targetLocation = targetUnit.getLocation();
+    int x = targetLocation.getColumn();
+    int y = targetLocation.getRow();
+
+    controller.getTurnOwner().useItemOn(x,y);
+
+    assertNotEquals(50,targetUnit.getCurrentHitPoints());
+
+
   }
 
   @Test
   void selectItem() {
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(1));
+    for (int i = 0; i < controller.getTurnOwner().getItems().size(); i++){
+      controller.getTurnOwner().addToInventory(controller.getTurnOwner().getItems().get(i));
+    }
+    controller.getTurnOwner().selectItem(2);
+
+    assertNotNull(controller.getTurnOwner().getSelectedItem());
+    assertEquals(Bow.class,controller.getTurnOwner().getSelectedItem().getClass());
+
   }
 
   @Test
   void giveItemTo() {
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(5));
+    for (int i = 0; i < controller.getTurnOwner().getItems().size(); i++){
+      controller.getTurnOwner().addToInventory(controller.getTurnOwner().getItems().get(i));
+    }
+    controller.getTurnOwner().selectItem(0);
+    IEquipableItem item = controller.getTurnOwner().getSelectedItem();
+
+    Tactician target = controller.getTacticians().get(1);
+    IUnit targetUnit = target.getUnits().get(1);
+    targetUnit.getItems().remove(0);
+    assertFalse(targetUnit.getItems().contains(item));
+    Location targetLocation = targetUnit.getLocation();
+    int x = targetLocation.getColumn();
+    int y = targetLocation.getRow();
+
+    controller.getTurnOwner().giveItemTo(x,y);
+
+    assertTrue(targetUnit.getItems().contains(item));
+
+  }
+
+  @Test
+  void moveUnitTo(){
+    controller.getTurnOwner().setSelectedUnit(controller.getTurnOwner().getUnits().get(0));
+    Location actualPosition = controller.getTurnOwner().getSelectedUnit().getLocation();
+    Location targetPosition = controller.getGameMap().getCell(0,1);
+    assertNotEquals(actualPosition,targetPosition);
+    controller.getTurnOwner().getSelectedUnit().moveTo(targetPosition);
+    assertEquals(targetPosition,controller.getTurnOwner().getSelectedUnit().getLocation());
   }
 }

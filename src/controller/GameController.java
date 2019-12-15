@@ -1,24 +1,20 @@
 package controller;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import controller.itemFactory.IEquipableItemFactory;
-import controller.itemFactory.SwordFactory;
-import controller.tacticianFactory.TacticianFactory;
-import controller.unitFactory.*;
+import controller.factory.itemFactory.*;
+import controller.factory.tacticianFactory.TacticianFactory;
+import controller.factory.unitFactory.*;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
-import model.units.Alpaca;
 import model.units.IUnit;
 
-import static controller.tacticianFactory.TacticianFactory.getName;
-import static controller.tacticianFactory.TacticianFactory.getTactician;
+import static controller.factory.tacticianFactory.TacticianFactory.getName;
+import static controller.factory.tacticianFactory.TacticianFactory.getTactician;
 
 /**
  * Controller of the game.
@@ -34,13 +30,51 @@ public class GameController {
   private Tactician currentTactician;
   private int roundNumber;
   private int maxRounds;
+  private List<String> winners;
 
 
   private GameController(){}
 
 
   private static class SingletonGameControllerHolder{
-    static final GameController SINGLE_INSTANCE = new GameController();
+    private static GameController SINGLE_INSTANCE;
+    private static int numberOfPlayers;
+    private static int mapSize;
+
+    /**
+     * set the number of players in the game
+     * @param players
+     */
+    public static void setNumberOfPlayers(final int players){ numberOfPlayers = players; }
+
+    /**
+     * set the size of the map
+     * @param size
+     */
+    public  static void setMapSize(final int size){ mapSize = size;}
+
+    /**
+     *
+     * @return the number of players in the game
+     */
+    public int getNumberOfPlayers(){return numberOfPlayers;}
+
+    /**
+     *
+     * @return the size of the map
+     */
+    public int getMapSize(){return mapSize;}
+
+    /**
+     * sets the single instance of the controller
+     */
+    public void setSingleInstance(){SINGLE_INSTANCE = new GameController(numberOfPlayers,mapSize);}
+
+    /**
+     *
+     * @return the single instance of the controller
+     */
+    public static GameController getInstance(){ return SINGLE_INSTANCE;}
   }
 
   /**
@@ -59,6 +93,8 @@ public class GameController {
    *     the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
+    SingletonGameControllerHolder.setNumberOfPlayers(numberOfPlayers);
+    SingletonGameControllerHolder.setMapSize(mapSize);
     TacticianFactory tacticianFactory = new TacticianFactory();
     for(int i = 0; i<numberOfPlayers; i++){
       tacticianFactory.setName(i);
@@ -72,7 +108,7 @@ public class GameController {
         this.gameMap.addCells(false,cells.get(i));
       }
     }
-
+    setGame();
   }
 
   /**
@@ -91,16 +127,22 @@ public class GameController {
 
   /**
    * Sets the inicial state of the game
-   * The tacticians get a Hero and can select the other units
+   * The tacticians get all the units
    */
   public void setGame(){
     UnitFactory unitFactory = new UnitFactory();
     for (int i = 0; i < getTacticians().size(); i++){
       setCurrentTactician(this.tacticians.get(i));
       this.currentTactician.setUnits(createUnits());
+      this.currentTactician.setItems(createItems());
     }
   }
 
+
+  /**
+   * creates units for the tacticians
+   * @return a list of units for each tactician
+   */
   private List<IUnit> createUnits() {
     List<IUnit> units = new ArrayList<>();
     IUnit alpaca = UnitFactory.getUnit(new AlpacaFactory()),
@@ -120,14 +162,53 @@ public class GameController {
     return units;
   }
 
-  private void setCurrentTactician(Tactician tactician) {
+
+  /**
+   * creates items for the tactician's units
+   * @return a list of new items
+   */
+  public List<IEquipableItem> createItems(){
+    List<IEquipableItem> items = new ArrayList<>();
+    IEquipableItem aenimaMagicBook = ItemFactory.getItem(new AenimaMagicBookFactory()),
+            axe = ItemFactory.getItem(new AxeFactory()),
+            bow = ItemFactory.getItem(new BowFactory()),
+            darkMagicBook = ItemFactory.getItem(new DarkMagicBookFactory()),
+            lightMagicBook = ItemFactory.getItem(new LightMagicBookFactory()),
+            spear = ItemFactory.getItem(new SpearFactory()),
+            staff = ItemFactory.getItem(new StaffFactory()),
+            sword = ItemFactory.getItem(new SwordFactory());
+    items.add(aenimaMagicBook);
+    items.add(axe);
+    items.add(bow);
+    items.add(darkMagicBook);
+    items.add(lightMagicBook);
+    items.add(spear);
+    items.add(staff);
+    items.add(sword);
+    return items;
+
+  }
+
+  /**
+   * Sets the tactician who has the turn in the game
+   * @param tactician
+   */
+  public void setCurrentTactician(Tactician tactician) {
 
     this.currentTactician = tactician;
   }
 
-  private void setRoundNumber(int round) {
+
+
+  /**
+   * Sets the current number of rounds in the game
+   * @param round
+   */
+  public void setRoundNumber(int round) {
     this.roundNumber = round;
   }
+
+
 
   /**
    * @return the tactician that's currently playing
@@ -136,12 +217,16 @@ public class GameController {
     return this.currentTactician;
   }
 
+
+
   /**
    * @return the number of rounds since the start of the game.
    */
   public int getRoundNumber() {
     return this.roundNumber;
   }
+
+
 
   /**
    * @return the maximum number of rounds a match can last
@@ -150,6 +235,8 @@ public class GameController {
     return this.maxRounds;
   }
 
+
+
   /**
    * Finishes the current player's turn.
    */
@@ -157,7 +244,14 @@ public class GameController {
     //Se implementa con observer. El jugador puede decidir cuando terminar su turno
     //Tambien se termina el turno despues de que el jugador haya movido una vez a cada una de sus unidades
     int index = this.tacticians.indexOf(this.currentTactician);
-    Tactician nextTactician = this.tacticians.get(index+1);
+    Tactician nextTactician;
+    if(index<this.tacticians.size()-1){
+      nextTactician = this.tacticians.get(index+1);
+      setCurrentTactician(nextTactician);
+    }
+    else{
+      setCurrentTactician(this.tacticians.get(0));
+    }
 
   }
 
@@ -175,7 +269,7 @@ public class GameController {
         tacticians.remove(i);
       }
     }
-    }
+  }
 
 
   /**
@@ -185,14 +279,12 @@ public class GameController {
    */
   public void initGame(final int maxTurns) {
 
-    int round = 1;
-
+    this.roundNumber = 1;
 
     //El juego dura mientras no se haya alcanzado la cantidad maxima de rondas
     //y mientras queden al menos dos jugadores en el campo
 
     while (this.tacticians.size() > 1 && getRoundNumber() < getMaxRounds()) {
-      setRoundNumber(round);
       setCurrentTactician(this.tacticians.get(0));
       Tactician nextPlayer = this.tacticians.get(1);
 
@@ -201,21 +293,23 @@ public class GameController {
       } else {
         for (int i = 0; i < getTacticians().size(); i++) {
           this.currentTactician = this.getTacticians().get(i);
-          //playTurn();
+          this.currentTactician.playTurn();
           endTurn();
         }
+        this.roundNumber++;
       }
-
-      round++;
       Collections.shuffle(this.tacticians);
-
 
     }
   }
 
-
-
-  private void playTurn() {
+  /**
+   * Sets the maximum number of rounds the game can last
+   * @param maxTurns
+   *
+   */
+  public void setMaxRounds(int maxTurns) {
+    this.maxRounds = maxTurns;
   }
 
 
@@ -226,11 +320,17 @@ public class GameController {
 
   }
 
+  public void setWinners(List<String> winners){
+
+  }
+
   /**
+   *
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */
   public List<String> getWinners() {
-    return null;
+
+    return this.winners;
   }
 
   /**
@@ -240,10 +340,6 @@ public class GameController {
     return currentTactician.getSelectedUnit();
   }
 
-  /**
-   * Communicates to the controller when the current tactician wants to change the state of the game
-   * @param evt
-   */
 
 
   /**
@@ -263,7 +359,7 @@ public class GameController {
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-    return this.getSelectedUnit().getItems();
+    return this.currentTactician.getItems();
   }
 
   /**
@@ -273,7 +369,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
-    IEquipableItem item = this.getSelectedUnit().getItems().get(index);
+    IEquipableItem item = this.currentTactician.getSelectedUnit().getItems().get(index);
     this.currentTactician.getSelectedUnit().equipItem(item);
   }
 
@@ -314,6 +410,11 @@ public class GameController {
     Location targetCell = getGameMap().getCell(x,y);
     IUnit unit = targetCell.getUnit();
     this.currentTactician.getSelectedUnit().giveItemTo(unit,this.currentTactician.getSelectedItem());
+  }
+
+  public void moveUnitTo(int x, int y){
+    Location targetCell = getGameMap().getCell(x,y);
+    this.currentTactician.getSelectedUnit().moveTo(targetCell);
   }
 
 
