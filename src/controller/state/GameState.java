@@ -2,6 +2,7 @@ package controller.state;
 
 import controller.GameController;
 import model.Tactician;
+import model.units.IUnit;
 
 public class GameState {
     Tactician tactician;
@@ -11,17 +12,10 @@ public class GameState {
 
     public void endTurn(){};
 
+    public void notPlayingTurn(){}
+
     public void setTactician(Tactician tactician){ this.tactician = tactician; }
 
-    public void selectUnitIn(int x, int y){
-    }
-
-    public void equipItem(){}
-
-    public void moveUnitTo(){}
-
-    public void useItemOn(){}
-
-    public void giveItemTo(){}
+    public void removeDefeatedUnit(IUnit unit){}
 
 }

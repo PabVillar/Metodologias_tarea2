@@ -17,24 +17,11 @@ public class PlayingTurnState extends GameState {
         }
 
     }
-    @Override
-    public void selectUnitIn(int x, int y){
 
+    @Override
+    public void removeDefeatedUnit(IUnit unit){
+        int index = tactician.getUnits().indexOf(unit);
+        
     }
-
-    @Override
-    public void equipItem(){}
-
-    @Override
-    public void moveUnitTo(){}
-
-    @Override
-    public void useItemOn(){}
-
-    @Override
-    public void giveItemTo(){}
-
-
-
 
 }

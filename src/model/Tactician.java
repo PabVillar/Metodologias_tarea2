@@ -1,7 +1,9 @@
 package model;
 
 import controller.GameController;
+import controller.state.EndTurnState;
 import controller.state.GameState;
+import controller.state.PlayingTurnState;
 import model.handlers.*;
 import model.items.IEquipableItem;
 import model.map.Field;
@@ -185,7 +187,7 @@ public class Tactician {
      * The tactician can realize different movements during their turn
      */
     public void playTurn() {
-
+        setState(new PlayingTurnState());
     }
 
     /**
@@ -193,7 +195,7 @@ public class Tactician {
      * The turn ends automatically if their hero is defeated
      */
     public void endTurn(){
-
+        setState(new EndTurnState());
     }
 
     /**

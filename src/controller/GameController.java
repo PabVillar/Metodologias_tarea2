@@ -7,6 +7,7 @@ import java.util.List;
 import controller.factory.itemFactory.*;
 import controller.factory.tacticianFactory.TacticianFactory;
 import controller.factory.unitFactory.*;
+import controller.state.GameState;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
@@ -30,7 +31,7 @@ public class GameController {
   private Tactician currentTactician;
   private int roundNumber;
   private int maxRounds;
-  private List<String> winners;
+  private List<String> winners = new ArrayList<>();
 
 
   private GameController(){}
@@ -110,6 +111,7 @@ public class GameController {
     }
     setGame();
   }
+
 
   /**
    * @return the list of all the tacticians participating in the game.
@@ -278,37 +280,39 @@ public class GameController {
    *  the maximum number of turns the game can last
    */
   public void initGame(final int maxTurns) {
+    int round = 1;
+    setMaxRounds(maxTurns);
+    setRoundNumber(round);
+    int i = 0;
+    int initialSize = tacticians.size();
 
-    this.roundNumber = 1;
-
-    //El juego dura mientras no se haya alcanzado la cantidad maxima de rondas
-    //y mientras queden al menos dos jugadores en el campo
-
-    while (this.tacticians.size() > 1 && getRoundNumber() < getMaxRounds()) {
-      setCurrentTactician(this.tacticians.get(0));
-      Tactician nextPlayer = this.tacticians.get(1);
-
-      if (nextPlayer.getName().equals(getTurnOwner().getName())) {
-        Collections.shuffle(this.tacticians);
-      } else {
-        for (int i = 0; i < getTacticians().size(); i++) {
-          this.currentTactician = this.getTacticians().get(i);
-          this.currentTactician.playTurn();
-          endTurn();
-        }
-        this.roundNumber++;
+    while (getRoundNumber() < getMaxRounds() && tacticians.size()>1){
+      while(i < tacticians.size()){
+        currentTactician = tacticians.get(i);
+        currentTactician.playTurn();
+        endTurn();
+        i++;
       }
-      Collections.shuffle(this.tacticians);
-
+      round++;
+      setRoundNumber(round);
     }
+    if (tacticians.size() != initialSize){
+      for (int j = 0; j < tacticians.size(); j++){
+        this.winners.add(tacticians.get(j).getName());
+      }
+    }
+
   }
+
+
+
 
   /**
    * Sets the maximum number of rounds the game can last
    * @param maxTurns
    *
    */
-  public void setMaxRounds(int maxTurns) {
+  public void setMaxRounds(final int maxTurns) {
     this.maxRounds = maxTurns;
   }
 
@@ -318,10 +322,18 @@ public class GameController {
    */
   public void initEndlessGame() {
 
-  }
+    setMaxRounds(-1);
+    int i = 0;
 
-  public void setWinners(List<String> winners){
-
+    while (tacticians.size()>1) {
+      while (i < tacticians.size()) {
+        currentTactician = tacticians.get(i);
+        currentTactician.playTurn();
+        endTurn();
+        i++;
+      }
+    }
+    this.winners.add(currentTactician.getName());
   }
 
   /**
