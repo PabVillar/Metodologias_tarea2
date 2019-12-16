@@ -142,16 +142,28 @@ public class Field {
   }
 
 
+  /**
+   *
+   * @return the size of the map
+   */
   public int getSize() {
     int size = map.size();
 
     return size;
   }
 
+  /**
+   * Sets a random seed for the random used in addCells
+   * @param seed
+   */
   public void setRandomSeed(long seed){
     this.random.setSeed(seed);
   }
 
+  /**
+   * Sets the random for the creation of the map
+   * @param random
+   */
   public void setRandom(Random random){
     this.random = random;
   }

@@ -434,6 +434,13 @@ public class GameController {
     this.currentTactician.getSelectedUnit().giveItemTo(unit,this.currentTactician.getSelectedItem());
   }
 
+  /**
+   * Moves the selected unit to a target location
+   * @param x
+   *      horizontal position of the cell
+   * @param y
+   *      vertical position of the cell
+   */
   public void moveUnitTo(int x, int y){
     Location targetCell = getGameMap().getCell(x,y);
     this.currentTactician.getSelectedUnit().moveTo(targetCell);

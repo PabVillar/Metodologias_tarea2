@@ -58,6 +58,10 @@ public class Tactician {
 
     }
 
+    /**
+     * Sets a state in the game
+     * @param state
+     */
      public void setState(GameState state){
         this.state = state;
         state.setTactician(this);
