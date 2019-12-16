@@ -11,6 +11,10 @@ public class PlayingTurnState extends GameState {
         tactician = gameController.getTurnOwner();
         IUnit hero = tactician.getUnits().get(4);
 
+        if (!tactician.getSelectedUnit().isActive()){
+            gameController.removeDefeatedUnit(tactician.getSelectedUnit());
+        }
+
         if (!hero.isActive()){
             tactician.setState(new EndTurnState());
             gameController.removeTactician(tactician.getName());
@@ -18,10 +22,6 @@ public class PlayingTurnState extends GameState {
 
     }
 
-    @Override
-    public void removeDefeatedUnit(IUnit unit){
-        int index = tactician.getUnits().indexOf(unit);
-        
-    }
+
 
 }

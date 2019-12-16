@@ -147,4 +147,12 @@ public class Field {
 
     return size;
   }
+
+  public void setRandomSeed(long seed){
+    this.random.setSeed(seed);
+  }
+
+  public void setRandom(Random random){
+    this.random = random;
+  }
 }

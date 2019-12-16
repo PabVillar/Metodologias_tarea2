@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -50,7 +51,20 @@ class GameControllerTest {
     assertEquals(7, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = new Random(randomSeed);
-    testRandom.setSeed(randomSeed);
+
+    Field newGameMap = new Field();
+    newGameMap.setRandom(testRandom);
+
+    int mapSize = gameMap.getSize();
+    List<Location> cells = new ArrayList<>();
+    for (int i = 0; i<mapSize;i++){
+      for (int j = 0; j < mapSize; j++){
+        cells.add(new Location(i,j));
+        newGameMap.addCells(false,cells.get(i));
+      }
+    }
+
+    assertNotEquals(gameMap,newGameMap);
 
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
@@ -69,7 +83,9 @@ class GameControllerTest {
     // Invariantes: que los tacticians existan y no existan dos tactician con el mismo turno
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4,tacticians.size());
-
+    String currentTactician = controller.getTurnOwner().getName();
+    String nextTactician = controller.getTacticians().get(0).getName();
+    assertNotEquals(currentTactician,nextTactician);
 
   }
 
@@ -101,10 +117,11 @@ class GameControllerTest {
   void endTurn() {
     Tactician firstPlayer = controller.getTurnOwner();
     // Nuevamente, para determinar el orden de los jugadores se debe usar una semilla
-    Tactician secondPlayer = new Tactician("Player 2"); // <- Deben cambiar esto (!)
+    Tactician secondPlayer = controller.getTacticians().get(0); // <- Deben cambiar esto (!)
     assertNotEquals(secondPlayer.getName(), firstPlayer.getName());
 
     controller.endTurn();
+
     assertNotEquals(firstPlayer.getName(), controller.getTurnOwner().getName());
     assertEquals(secondPlayer.getName(), controller.getTurnOwner().getName());
   }

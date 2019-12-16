@@ -196,7 +196,6 @@ public class GameController {
    * @param tactician
    */
   public void setCurrentTactician(Tactician tactician) {
-
     this.currentTactician = tactician;
   }
 
@@ -273,6 +272,15 @@ public class GameController {
     }
   }
 
+  /**
+   * Removes a defeated unit
+   * @param unit
+   *        The defeated unit to remove
+   */
+  public void removeDefeatedUnit(IUnit unit){
+    int index = currentTactician.getUnits().indexOf(unit);
+    currentTactician.getUnits().remove(index);
+  }
 
   /**
    * Starts the game.
@@ -284,7 +292,7 @@ public class GameController {
     setMaxRounds(maxTurns);
     setRoundNumber(round);
     int i = 0;
-    int initialSize = tacticians.size();
+    int initialSize = this.tacticians.size();
 
     while (getRoundNumber() < getMaxRounds() && tacticians.size()>1){
       while(i < tacticians.size()){
@@ -295,12 +303,14 @@ public class GameController {
       }
       round++;
       setRoundNumber(round);
+      Collections.shuffle(tacticians);
+
     }
-    if (tacticians.size() != initialSize){
+
+    if(this.tacticians.size() != initialSize)
       for (int j = 0; j < tacticians.size(); j++){
         this.winners.add(tacticians.get(j).getName());
       }
-    }
 
   }
 
